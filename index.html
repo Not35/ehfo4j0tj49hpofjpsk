@@ -1,1 +1,204 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ไอป่อง🐶</title>
+    <style>
+        /* สร้างพื้นหลังลายสก็อตสีแดง */
+        body {
+            margin: 0;
+            font-family: 'Comic Sans MS', sans-serif;
+            background-color: #fff0f0;
+            background-image: 
+                repeating-linear-gradient(transparent, transparent 40px, rgba(220, 50, 50, 0.15) 40px, rgba(220, 50, 50, 0.15) 80px),
+                repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(220, 50, 50, 0.15) 40px, rgba(220, 50, 50, 0.15) 80px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
 
+        /* กรอบโทรศัพท์จำลอง */
+        .phone-container {
+            width: 100%;
+            max-width: 400px;
+            height: 80vh;
+            max-height: 700px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .page {
+            display: none;
+            padding: 20px;
+            text-align: center;
+            height: 100%;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.5s ease-in-out;
+            box-sizing: border-box;
+        }
+
+        .page.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .btn {
+            background: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(255, 77, 77, 0.3);
+        }
+
+        .loading {
+            font-size: 18px;
+            color: #ff4d4d;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .gallery img {
+            width: 100%;
+            border-radius: 10px;
+            aspect-ratio: 1;
+            object-fit: cover;
+            background-color: #ffe6e6; /* สีพื้นหลังระหว่างรอโหลดรูป */
+        }
+
+        /* กล่องจดหมายรองรับข้อความยาว */
+        .letter-box {
+            text-align: left;
+            background: #fff9f9;
+            padding: 20px;
+            border-radius: 15px;
+            border: 2px dashed #ffb3b3;
+            width: 90%;
+            max-height: 50vh; 
+            overflow-y: auto; 
+            margin-top: 15px;
+            white-space: pre-wrap; /* ขึ้นบรรทัดใหม่ตามที่พิมพ์ใน HTML */
+            word-wrap: break-word; 
+            line-height: 1.6; 
+            box-sizing: border-box;
+        }
+
+        .letter-box::-webkit-scrollbar {
+            width: 6px;
+        }
+        .letter-box::-webkit-scrollbar-thumb {
+            background-color: #ffb3b3;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="phone-container">
+        <!-- หน้า Loading โหลดข้อมูลรูปจาก API -->
+        <div id="page-loading" class="page active">
+            <div class="loading">กำลังเตรียมเซอร์ไพรส์... 💖</div>
+        </div>
+
+        <!-- หน้า 1: ต้อนรับ -->
+        <div id="page-1" class="page">
+            <!-- ✏️ แก้ไขข้อความหัวเรื่องตรงนี้ -->
+            <h2 style="color: #d63031;">Happy Valentine's Day</h2>
+            
+            <img src="https://drive.google.com/thumbnail?id=1Pp1EyNP_NSP2e0WuhQ6fqDv_jsRvk1vI&sz=w800" width="150" style="margin: 20px 0; border-radius: 15px; object-fit: cover;">
+            <p>Click the next button! ( ๑ ˃̵ᴗ˂̵)و</p>
+            <button class="btn" onclick="nextPage(2)">Next ➔</button>
+        </div>
+
+        <!-- หน้า 2: แกลลอรี่ (รูปดึงจาก API) -->
+        <div id="page-2" class="page">
+            <h2 style="color: #d63031;">Our Beautiful Memories</h2>
+            <div class="gallery">
+                <img id="db-img1" src="" alt="Memory 1">
+                <img id="db-img2" src="" alt="Memory 2">
+            </div>
+            <button class="btn" onclick="nextPage(3)">Next ➔</button>
+        </div>
+
+        <!-- หน้า 3: เพลง -->
+        <div id="page-3" class="page">
+            <h2 style="color: #d63031;">A Song Just For You</h2>
+            <!-- ✏️ เปลี่ยนลิงก์ src เป็น Embed URL เพลงของคุณ -->
+            <iframe style="border-radius:12px" 
+            src="https://open.spotify.com/embed/track/0cHtr7i0P0TpEODZr2WZDE?utm_source=generator&si=075db433cbe84a27" 
+            width="100%" height="152" frameBorder="0" allowfullscreen="" 
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy">
+    </iframe>
+            
+            <button class="btn" onclick="nextPage(4)">Open Letter 💌</button>
+        </div>
+
+        <!-- หน้า 4: จดหมาย -->
+        <div id="page-4" class="page">
+            <h2 style="color: #d63031;">For You ❤️</h2>
+            <div class="letter-box">
+<!-- ✏️ พิมพ์ข้อความจดหมายของคุณด้านล่างนี้ (พิมพ์เว้นบรรทัดได้เลย) -->
+ขอบคุณที่คอยเคียงข้างและจับมือกันก้าวผ่านอุปสรรคมาได้เสมอ แม้จะมีช่วงเวลาที่ไม่เข้าใจกันบ้าง
+ แต่เราก็ช่วยกันแก้ไขและปรับความเข้าใจกันมาตลอด อยากบอกว่าภูมิใจในตัวพี่มากๆ ไม่ต้องไปแข่งกับใคร 
+ แค่เป็นตัวเองก็เก่งที่สุดแล้ว "ไอเด็กคนนี้" จะรักและอยู่ข้างๆ คอยเติมพลังใจให้พี่เสมอไม่ว่าจะเจอเรื่องอะไรก็ตาม รักที่สุด!
+<!-- สิ้นสุดข้อความจดหมาย -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ✏️ ใส่ URL ของ Google Apps Script ของคุณที่นี่
+        const API_URL = "https://script.google.com/macros/s/AKfycby3qv4g1uTLPVGO-O6IfwEnZk1Ld3BTCbLWUlBUVbl210XaXINXh6tgTWINUNkMlc53/exec"; 
+
+        async function fetchData() {
+            try {
+                const response = await fetch(API_URL);
+                const data = await response.json();
+
+                // ดึงเฉพาะรูปภาพจาก API มาใส่
+                document.getElementById('db-img1').src = data.img1 || '';
+                document.getElementById('db-img2').src = data.img2 || '';
+
+                // โหลดเสร็จแล้วเปิดหน้าแรก
+                nextPage(1);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+                document.querySelector('.loading').innerText = "เกิดข้อผิดพลาดในการโหลดรูปภาพ 😢";
+            }
+        }
+
+        function nextPage(pageNum) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById('page-' + pageNum).classList.add('active');
+        }
+
+        // เริ่มโหลดข้อมูลทันทีที่เปิดเว็บ
+        fetchData();
+    </script>
+</body>
+</html>
